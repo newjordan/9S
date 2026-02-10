@@ -1,0 +1,39 @@
+/* CSS Grid approach — uses 9 separate slice images */
+/* Wrap your content in an element with class "frame-grid" */
+
+.frame-grid {
+  display: grid;
+  grid-template-columns: 212px 1fr 212px;
+  grid-template-rows: 204px 1fr 204px;
+  min-width: 424px;
+  min-height: 408px;
+}
+
+.frame-grid > * {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.frame-tl { grid-area: 1 / 1 / 2 / 2; background-image: url('frame-top-left.png'); }
+.frame-tc { grid-area: 1 / 2 / 2 / 3; background-image: url('frame-top-center.png'); }
+.frame-tr { grid-area: 1 / 3 / 2 / 4; background-image: url('frame-top-right.png'); }
+.frame-ml { grid-area: 2 / 1 / 3 / 2; background-image: url('frame-middle-left.png'); }
+.frame-c  { grid-area: 2 / 2 / 3 / 3; background-image: url('frame-center.png'); }
+.frame-mr { grid-area: 2 / 3 / 3 / 4; background-image: url('frame-middle-right.png'); }
+.frame-bl { grid-area: 3 / 1 / 4 / 2; background-image: url('frame-bottom-left.png'); }
+.frame-bc { grid-area: 3 / 2 / 4 / 3; background-image: url('frame-bottom-center.png'); }
+.frame-br { grid-area: 3 / 3 / 4 / 4; background-image: url('frame-bottom-right.png'); }
+
+/* Usage:
+<div class="frame-grid">
+  <div class="frame-tl"></div>
+  <div class="frame-tc"></div>
+  <div class="frame-tr"></div>
+  <div class="frame-ml"></div>
+  <div class="frame-c">Your content here</div>
+  <div class="frame-mr"></div>
+  <div class="frame-bl"></div>
+  <div class="frame-bc"></div>
+  <div class="frame-br"></div>
+</div>
+*/

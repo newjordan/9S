@@ -1,0 +1,11 @@
+/* border-image approach — uses the original source image */
+/* Apply this class to any element to give it the 9-slice frame */
+
+.frame-frame {
+  border-style: solid;
+  border-width: 204px 212px;
+  border-image-source: url('frame-source.png');
+  border-image-slice: 204 212 204 212 fill;
+  border-image-repeat: stretch;
+  box-sizing: border-box;
+}

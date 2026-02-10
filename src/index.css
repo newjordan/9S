@@ -1,0 +1,493 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: #e0e0e0;
+  background-color: #1a1a1e;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --accent: #00d4ff;
+  --accent-dim: rgba(0, 212, 255, 0.5);
+  --surface: #25252a;
+  --surface-2: #2e2e34;
+  --border: #3a3a42;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --danger: #ff4d6a;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+/* ========== Upload Screen ========== */
+
+.app-upload-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 0.5rem;
+}
+
+.app-upload-screen h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  color: var(--text-dim);
+  margin: 0 0 2rem;
+  font-size: 1.1rem;
+}
+
+.upload-zone {
+  width: 100%;
+  max-width: 500px;
+  padding: 3rem 2rem;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.upload-zone:hover,
+.upload-zone:focus-visible {
+  border-color: var(--accent-dim);
+  background: var(--surface-2);
+}
+
+.upload-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(0, 212, 255, 0.05);
+}
+
+.upload-icon {
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.upload-text {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.upload-hint {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.upload-error {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin: 1rem 0 0;
+}
+
+/* ========== App Layout ========== */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.header-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.app-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.workspace {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.sidebar-resizer {
+  width: 6px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  background: var(--border);
+  transition: background 0.15s;
+  position: relative;
+  z-index: 20;
+}
+
+.sidebar-resizer:hover,
+.sidebar-resizer:active {
+  background: var(--accent);
+}
+
+.sidebar {
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ========== Slice Canvas ========== */
+
+.slice-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.slice-canvas-container:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent-dim);
+}
+
+.slice-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.slice-handle {
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.slice-handle:hover,
+.slice-handle.active {
+  opacity: 1;
+  background: rgba(0, 212, 255, 0.2);
+}
+
+.canvas-info {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ========== Slice Controls ========== */
+
+.slice-controls h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.control-group {
+  margin-bottom: 0.75rem;
+}
+
+.control-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 4px;
+}
+
+.inset-number {
+  width: 70px;
+  padding: 4px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  text-align: right;
+}
+
+.inset-number:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.unit {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.inset-summary {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--surface-2);
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.inset-summary code {
+  color: var(--accent);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+}
+
+/* ========== Slice Preview ========== */
+
+.slice-preview h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+
+.region-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-bottom: 1rem;
+}
+
+.region-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.region-thumb canvas {
+  max-width: 100%;
+  border-radius: 2px;
+  image-rendering: pixelated;
+}
+
+.region-thumb.empty {
+  min-height: 40px;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+.region-name {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.region-size {
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  font-family: monospace;
+}
+
+.live-preview-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.size-input {
+  width: 60px;
+  padding: 3px 5px;
+  margin-left: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.size-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.live-preview-box {
+  background: var(--surface-2);
+  border-radius: 0;
+  overflow: hidden;
+  max-width: 100%;
+  width: fit-content;
+}
+
+.live-preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* ========== Export ========== */
+
+.export-section h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+
+.export-row {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.prefix-input {
+  width: 120px;
+  padding: 4px 6px;
+  margin-left: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.prefix-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.export-button {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.export-button:hover {
+  opacity: 0.9;
+}
+
+.export-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.export-hint {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin: 0.5rem 0 0;
+}
+
+.reset-button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.reset-button:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+  }
+
+  .workspace {
+    height: 50vh;
+    flex: none;
+  }
+
+  .sidebar-resizer {
+    display: none;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    border-top: 1px solid var(--border);
+    flex: 1;
+  }
+}
