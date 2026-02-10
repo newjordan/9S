@@ -52,8 +52,8 @@ One-click export generates a ZIP containing all 9 slices, the source image, and 
 ### Install & Run
 
 ```bash
-git clone https://github.com/newjordan/9slice-tool.git
-cd 9slice-tool
+git clone https://github.com/newjordan/9S.git
+cd 9S
 npm install
 npm run dev
 ```
