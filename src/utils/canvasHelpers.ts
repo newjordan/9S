@@ -16,9 +16,10 @@ export function fitImageToContainer(
   containerH: number,
   padding = 20,
 ): FitResult {
-  const availW = containerW - padding * 2;
-  const availH = containerH - padding * 2;
-  const scale = Math.min(1, availW / imgW, availH / imgH);
+  const availW = Math.max(0, containerW - padding * 2);
+  const availH = Math.max(0, containerH - padding * 2);
+  const scale =
+    imgW > 0 && imgH > 0 ? Math.min(1, availW / imgW, availH / imgH) : 0;
   const displayWidth = imgW * scale;
   const displayHeight = imgH * scale;
   const offsetX = (containerW - displayWidth) / 2;

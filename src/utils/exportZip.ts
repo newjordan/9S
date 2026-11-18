@@ -23,7 +23,7 @@ export async function exportZip(
   zip.file(`${prefix}-source.png`, sourceBlob);
 
   // 9 sliced images
-  const slices = await sliceImage(image, insets, prefix);
+  const slices = await sliceImage(image, insets);
   for (const [name, blob] of slices) {
     zip.file(`${prefix}-${name}.png`, blob);
   }
@@ -32,7 +32,7 @@ export async function exportZip(
   const borderCSS = generateBorderImageCSS(prefix, insets);
   zip.file('border-image.css', borderCSS);
 
-  const gridCSS = generateGridLayoutCSS(prefix, insets, image.width, image.height);
+  const gridCSS = generateGridLayoutCSS(prefix, insets);
   zip.file('grid-layout.css', gridCSS);
 
   // Generate and download
