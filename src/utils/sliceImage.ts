@@ -26,7 +26,6 @@ export function getSliceRegions(
 export async function sliceImage(
   image: HTMLImageElement,
   insets: SliceInsets,
-  prefix: string,
 ): Promise<Map<SliceRegionName, Blob>> {
   const regions = getSliceRegions(image.width, image.height, insets);
   const result = new Map<SliceRegionName, Blob>();

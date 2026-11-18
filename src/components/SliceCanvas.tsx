@@ -11,31 +11,13 @@ interface SliceCanvasProps {
 }
 
 export function SliceCanvas({ image, insets, setHInset, setVInset }: SliceCanvasProps) {
-  const { canvasRef, fitRef } = useCanvasRenderer(image, insets);
+  const { canvasRef, fit } = useCanvasRenderer(image, insets);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<DragHandle>(null);
-  const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
 
-  // Update container rect on resize
   useEffect(() => {
-    const update = () => {
-      if (containerRef.current) {
-        setContainerRect(containerRef.current.getBoundingClientRect());
-      }
-    };
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    containerRef.current?.focus();
   }, []);
-
-  // Also update when image changes
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerRect(containerRef.current.getBoundingClientRect());
-    }
-  }, [image]);
-
-  const fit = fitRef.current;
 
   const handlePointerDown = useCallback(
     (handle: DragHandle) => (e: React.PointerEvent) => {
@@ -47,32 +29,30 @@ export function SliceCanvas({ image, insets, setHInset, setVInset }: SliceCanvas
   );
 
   const handlePointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragging || !fit || !containerRect) return;
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!dragging || !fit) return;
 
+      const rect = e.currentTarget.getBoundingClientRect();
       const { scale, offsetX, offsetY, displayWidth, displayHeight } = fit;
+      if (scale <= 0) return;
 
       if (dragging === 'left' || dragging === 'right') {
-        const relX = e.clientX - containerRect.left;
-        let imageX: number;
-        if (dragging === 'left') {
-          imageX = (relX - offsetX) / scale;
-        } else {
-          imageX = (offsetX + displayWidth - relX) / scale;
-        }
+        const relX = e.clientX - rect.left;
+        const imageX =
+          dragging === 'left'
+            ? (relX - offsetX) / scale
+            : (offsetX + displayWidth - relX) / scale;
         setHInset(imageX);
       } else {
-        const relY = e.clientY - containerRect.top;
-        let imageY: number;
-        if (dragging === 'top') {
-          imageY = (relY - offsetY) / scale;
-        } else {
-          imageY = (offsetY + displayHeight - relY) / scale;
-        }
+        const relY = e.clientY - rect.top;
+        const imageY =
+          dragging === 'top'
+            ? (relY - offsetY) / scale
+            : (offsetY + displayHeight - relY) / scale;
         setVInset(imageY);
       }
     },
-    [dragging, fit, containerRect, setHInset, setVInset],
+    [dragging, fit, setHInset, setVInset],
   );
 
   const handlePointerUp = useCallback(() => {

@@ -26,5 +26,8 @@ dist-ssr
 # Zip artifacts
 *.zip
 
-# Claude Code local settings
+# Editor and agent session folders
 .claude/
+.codex/
+.cursor/
+.aider*

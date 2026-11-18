@@ -1,5 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
 import type { SliceInsets, SliceRegion, SliceRegionName } from '../types';
+import { getSliceRegions } from '../utils/sliceImage';
 
 interface SlicePreviewProps {
   image: HTMLImageElement;
@@ -11,24 +12,6 @@ const REGION_ORDER: SliceRegionName[] = [
   'middle-left', 'center', 'middle-right',
   'bottom-left', 'bottom-center', 'bottom-right',
 ];
-
-function getRegions(imgW: number, imgH: number, insets: SliceInsets): SliceRegion[] {
-  const { hInset, vInset } = insets;
-  const centerW = imgW - hInset * 2;
-  const centerH = imgH - vInset * 2;
-
-  return [
-    { name: 'top-left', x: 0, y: 0, w: hInset, h: vInset },
-    { name: 'top-center', x: hInset, y: 0, w: centerW, h: vInset },
-    { name: 'top-right', x: imgW - hInset, y: 0, w: hInset, h: vInset },
-    { name: 'middle-left', x: 0, y: vInset, w: hInset, h: centerH },
-    { name: 'center', x: hInset, y: vInset, w: centerW, h: centerH },
-    { name: 'middle-right', x: imgW - hInset, y: vInset, w: hInset, h: centerH },
-    { name: 'bottom-left', x: 0, y: imgH - vInset, w: hInset, h: vInset },
-    { name: 'bottom-center', x: hInset, y: imgH - vInset, w: centerW, h: vInset },
-    { name: 'bottom-right', x: imgW - hInset, y: imgH - vInset, w: hInset, h: vInset },
-  ];
-}
 
 function RegionThumb({ image, region }: { image: HTMLImageElement; region: SliceRegion }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -79,7 +62,7 @@ export function SlicePreview({ image, insets }: SlicePreviewProps) {
   const [previewSize, setPreviewSize] = useState({ w: 300, h: 200 });
 
   const regions = useMemo(
-    () => getRegions(image.width, image.height, insets),
+    () => getSliceRegions(image.width, image.height, insets),
     [image, insets],
   );
 

@@ -23,12 +23,8 @@ export function generateBorderImageCSS(
 export function generateGridLayoutCSS(
   prefix: string,
   insets: SliceInsets,
-  imgWidth: number,
-  imgHeight: number,
 ): string {
   const { hInset, vInset } = insets;
-  const centerW = imgWidth - hInset * 2;
-  const centerH = imgHeight - vInset * 2;
 
   return `/* CSS Grid approach — uses 9 separate slice images */
 /* Wrap your content in an element with class "${prefix}-grid" */

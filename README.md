@@ -41,7 +41,7 @@ Interface frames often start as bespoke artwork and end up needing to behave lik
 
 ### Requirements
 
-- Node.js 18+
+- Node.js 20.19+ or 22.12+
 - npm
 
 ### Run Locally
@@ -54,6 +54,8 @@ npm run dev
 ```
 
 Open `http://localhost:5173`.
+
+`npm run build` typechecks and writes a production build. `npm run lint` runs ESLint.
 
 ## Future Experiments
 
