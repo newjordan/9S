@@ -153,7 +153,7 @@ export function SliceCanvas({ image, insets, setHInset, setVInset }: SliceCanvas
         </>
       )}
       <div className="canvas-info">
-        {image.width} x {image.height}px &mdash; Arrow keys: &plusmn;1px, Shift+Arrow: &plusmn;10px
+        {image.width} × {image.height}px · Drag the guides · Arrow keys ±1px · Shift ±10px
       </div>
     </div>
   );

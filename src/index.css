@@ -57,13 +57,101 @@ h1, h2, h3, h4 {
   font-size: 3rem;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .tagline {
   color: var(--text-dim);
-  margin: 0 0 2rem;
-  font-size: 1.1rem;
+  margin: 0;
+  max-width: 36rem;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.chooser-steps {
+  counter-reset: step;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.chooser-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chooser-steps li::before {
+  content: counter(step);
+  counter-increment: step;
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.chooser-actions {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.sample-button {
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sample-button:hover {
+  opacity: 0.92;
+}
+
+.sample-button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.chooser-or {
+  margin: 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.app-upload-screen.drag-over .upload-zone {
+  border-color: var(--accent);
+  background: rgba(0, 212, 255, 0.05);
 }
 
 .upload-zone {
@@ -123,8 +211,9 @@ h1, h2, h3, h4 {
 
 .app-header {
   display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
   padding: 0.5rem 1rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -141,6 +230,40 @@ h1, h2, h3, h4 {
 .header-subtitle {
   font-size: 0.85rem;
   color: var(--text-dim);
+}
+
+.header-file {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 100%;
+  padding: 2px 8px 2px 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.75rem;
+}
+
+.header-badge {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #111;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.header-filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
 }
 
 .app-main {
@@ -174,11 +297,11 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1rem;
+  padding: 0.85rem 1rem 1rem;
   background: var(--surface);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 /* ========== Slice Canvas ========== */
@@ -268,6 +391,13 @@ h1, h2, h3, h4 {
   font-size: 0.85rem;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   text-align: right;
+  appearance: textfield;
+}
+
+.inset-number::-webkit-outer-spin-button,
+.inset-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .inset-number:focus {
@@ -302,6 +432,10 @@ h1, h2, h3, h4 {
   letter-spacing: 0.05em;
   color: var(--text-dim);
   margin-bottom: 0.5rem;
+}
+
+.slice-preview h3:not(:first-child) {
+  margin-top: 1rem;
 }
 
 .region-grid {
@@ -373,12 +507,55 @@ h1, h2, h3, h4 {
   border-color: var(--accent);
 }
 
+.live-preview-stage {
+  width: 100%;
+  overflow: hidden;
+}
+
+.live-preview-scale {
+  position: relative;
+}
+
 .live-preview-box {
-  background: var(--surface-2);
+  background:
+    linear-gradient(45deg, #2a2a2a 25%, transparent 25%),
+    linear-gradient(-45deg, #2a2a2a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2a2a2a 75%),
+    linear-gradient(-45deg, transparent 75%, #2a2a2a 75%);
+  background-color: #333;
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
   border-radius: 0;
   overflow: hidden;
-  max-width: 100%;
-  width: fit-content;
+}
+
+.size-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -0.15rem 0 0.6rem;
+}
+
+.size-presets button {
+  padding: 2px 8px;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.size-presets button[aria-pressed='true'] {
+  color: #111;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.preview-note {
+  margin: 0.45rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.75rem;
 }
 
 .live-preview-content {
@@ -452,6 +629,12 @@ h1, h2, h3, h4 {
   margin: 0.5rem 0 0;
 }
 
+.export-error {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin: 0.45rem 0 0;
+}
+
 .reset-button {
   width: 100%;
   padding: 0.5rem 1rem;
@@ -469,9 +652,43 @@ h1, h2, h3, h4 {
   color: var(--text);
 }
 
+.sample-button:focus-visible,
+.export-button:focus-visible,
+.reset-button:focus-visible,
+.size-presets button:focus-visible,
+.sidebar-resizer:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.drop-overlay {
+  position: fixed;
+  inset: 12px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--accent);
+  border-radius: 12px;
+  background: rgba(0, 212, 255, 0.1);
+  pointer-events: none;
+}
+
+.drop-overlay span {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* ========== Responsive ========== */
 
 @media (max-width: 768px) {
+  .header-file {
+    margin-left: 0;
+  }
+
   .app-main {
     flex-direction: column;
   }

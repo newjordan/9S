@@ -22,6 +22,7 @@ export function ImageUploader({ onFile, loading, error }: ImageUploaderProps) {
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       setDragOver(false);
       handleFiles(e.dataTransfer.files);
     },
@@ -47,15 +48,21 @@ export function ImageUploader({ onFile, loading, error }: ImageUploaderProps) {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click();
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
       }}
     >
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/png,image/webp,image/gif,image/*"
         style={{ display: 'none' }}
-        onChange={(e) => handleFiles(e.target.files)}
+        onChange={(e) => {
+          handleFiles(e.target.files);
+          e.target.value = '';
+        }}
       />
       {loading ? (
         <p className="upload-text">Loading...</p>

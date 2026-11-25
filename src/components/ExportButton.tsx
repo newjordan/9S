@@ -10,15 +10,17 @@ interface ExportButtonProps {
 
 export function ExportButton({ image, insets }: ExportButtonProps) {
   const [exporting, setExporting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [prefix, setPrefix] = useState(DEFAULT_PREFIX);
 
   const handleExport = async () => {
     setExporting(true);
+    setError(null);
     try {
       await exportZip(image, insets, prefix);
     } catch (err) {
       console.error('Export failed:', err);
-      alert('Export failed. Check the console for details.');
+      setError('Export failed. Try again in a moment.');
     } finally {
       setExporting(false);
     }
@@ -40,6 +42,7 @@ export function ExportButton({ image, insets }: ExportButtonProps) {
       </div>
       <button
         className="export-button"
+        type="button"
         onClick={handleExport}
         disabled={exporting}
       >
@@ -48,6 +51,7 @@ export function ExportButton({ image, insets }: ExportButtonProps) {
       <p className="export-hint">
         Includes 9 PNGs + source + border-image.css + grid-layout.css
       </p>
+      {error && <p className="export-error">{error}</p>}
     </div>
   );
 }
