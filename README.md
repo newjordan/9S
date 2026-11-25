@@ -4,6 +4,19 @@
 
 9S is a browser-based 9-slice authoring tool for turning a single frame image into reusable interface assets. It lets you define slice boundaries visually, preview scaling behavior, and export both image slices and CSS implementations for production use.
 
+## Live demo
+
+The published build opens on a sample HUD frame. Drag the guides, resize the preview, or drop your own PNG. Nothing is uploaded to a server.
+
+**[Open the live demo](https://newjordan.github.io/9S/)**
+
+![9S demo with slice guides, the nine regions, and a scaled live preview](docs/demo.png)
+
+`npm run build` writes a static site to `dist/`. Asset URLs are relative, so the same folder works at a domain root or under a project path.
+
+- **GitHub Pages:** [`.github/workflows/pages.yml`](.github/workflows/pages.yml) publishes `dist/` on every push to `main`. One-time setup: Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+- **Vercel:** import the repo. [`vercel.json`](vercel.json) builds with Vite and serves `dist/`.
+
 ## Why This Exists
 
 Interface frames often start as bespoke artwork and end up needing to behave like a flexible system. That handoff is usually slow and error-prone.
@@ -21,7 +34,7 @@ Interface frames often start as bespoke artwork and end up needing to behave lik
 
 ## How It Works (High Level)
 
-1. Load a PNG frame into the editor.
+1. Load a PNG frame into the editor. The demo starts from a bundled sample.
 2. Adjust horizontal and vertical insets to define the nine regions.
 3. Preview the frame at different sizes to validate edge and corner behavior.
 4. Generate CSS plus sliced PNG assets from the same source.
@@ -29,13 +42,13 @@ Interface frames often start as bespoke artwork and end up needing to behave lik
 
 ## Demo / Screenshots
 
-![9S workspace](public/fullscreen_1.png)
+The same kind of frame, previewed small and wide. Corners stay intact while the edges stretch.
 
-![9S editor](public/fullscreen_2.png)
-
-| 200 x 200 | 800 x 600 |
+| 200 × 200 | 800 × 600 |
 |:---:|:---:|
-| ![Small preview](public/200_200_live_preview.png) | ![Large preview](public/800_600_live_preview.png) |
+| ![Small preview](docs/preview-200.png) | ![Large preview](docs/preview-800.png) |
+
+![Another frame open in the editor](docs/editor-custom-frame.png)
 
 ## Getting Started
 
@@ -55,7 +68,7 @@ npm run dev
 
 Open `http://localhost:5173`.
 
-`npm run build` typechecks and writes a production build. `npm run lint` runs ESLint.
+`npm run build` typechecks and writes the static site to `dist/`. `npm run preview` serves that build. `npm run lint` runs ESLint.
 
 ## Future Experiments
 

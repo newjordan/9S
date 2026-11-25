@@ -31,8 +31,12 @@ export function SliceControls({ insets, setHInset, setVInset, maxH, maxV }: Slic
               min={0}
               max={maxH}
               value={insets.hInset}
-              onChange={(e) => setHInset(Number(e.target.value))}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                if (Number.isFinite(next)) setHInset(next);
+              }}
               className="inset-number"
+              aria-label="Horizontal inset"
             />
             <span className="unit">px</span>
           </div>
@@ -57,8 +61,12 @@ export function SliceControls({ insets, setHInset, setVInset, maxH, maxV }: Slic
               min={0}
               max={maxV}
               value={insets.vInset}
-              onChange={(e) => setVInset(Number(e.target.value))}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                if (Number.isFinite(next)) setVInset(next);
+              }}
               className="inset-number"
+              aria-label="Vertical inset"
             />
             <span className="unit">px</span>
           </div>

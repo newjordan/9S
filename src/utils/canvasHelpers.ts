@@ -14,7 +14,7 @@ export function fitImageToContainer(
   imgH: number,
   containerW: number,
   containerH: number,
-  padding = 20,
+  padding = 40,
 ): FitResult {
   const availW = Math.max(0, containerW - padding * 2);
   const availH = Math.max(0, containerH - padding * 2);

@@ -19,6 +19,13 @@ export function useSliceState(
 
   const [hInset, setHInsetRaw] = useState(() => Math.round(imageWidth * 0.25));
   const [vInset, setVInsetRaw] = useState(() => Math.round(imageHeight * 0.25));
+  const [sizedFor, setSizedFor] = useState({ w: imageWidth, h: imageHeight });
+
+  if (sizedFor.w !== imageWidth || sizedFor.h !== imageHeight) {
+    setSizedFor({ w: imageWidth, h: imageHeight });
+    setHInsetRaw(Math.min(maxH, Math.round(imageWidth * 0.25)));
+    setVInsetRaw(Math.min(maxV, Math.round(imageHeight * 0.25)));
+  }
 
   const setHInset = useCallback(
     (value: number) => {
